@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import './buttons/zerarCounterButton.dart';
 import './buttons/nextScreenButton.dart';
 
+// Página de Gabriel
+import './pageGabriel.dart';
+
 class Home extends StatefulWidget {
   final String title;
   const Home({Key key, this.title}) : super(key: key);
@@ -38,7 +41,7 @@ class _HomeState extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
               ZerarCounterButton(zerarCounter: _zerarContador),
-              NextScreenButton(),
+              NextScreenButton(function: _gotoGabrielPage,),
             ],),
           ),
         ],
@@ -58,6 +61,10 @@ class _HomeState extends State<Home> {
     setState(() {
       _pontuacao = 0;
     });
+  }
+
+  void _gotoGabrielPage() {
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => DSIPage(title: "DSI")));
   }
 
 }
