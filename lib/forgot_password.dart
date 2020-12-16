@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import './constants.dart';
+import 'dart:io';
 
 class ForgotPassword extends StatefulWidget {
   @override
@@ -29,6 +30,11 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
   final _formState = GlobalKey<FormState>();
 
   final _pwdController = TextEditingController();
+  final _confirmPwdController = TextEditingController();
+
+  bool _validateEmail(String email) {
+    return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +67,12 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
               TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(labelText: "Email"),
-                validator: (value) =>
-                    value.isEmpty ? "Informe o seu email" : null,
+                validator: (value) {
+                  if(value.isEmpty) return "Informe seu email";
+                  if(!_validateEmail(value)) return "Insira um email válido";
+                  return null;
+                },
+                    
               ),
               Constants.boxSmallHeight,
               TextFormField(
@@ -70,18 +80,22 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                 controller: _pwdController,
                 obscureText: true,
                 decoration: const InputDecoration(labelText: "Nova senha"),
+                validator: (value) =>                  
+                  value.isEmpty || (value != _confirmPwdController.text)
+                      ? "As senhas precisam ser iguais"
+                      : null,
               ),
               Constants.boxSmallHeight,
               TextFormField(
                 keyboardType: TextInputType.visiblePassword,
                 obscureText: true,
+                controller: _confirmPwdController,
                 decoration:
                     const InputDecoration(labelText: "Repita a nova senha"),
-                validator: (value) {
+                validator: (value) =>                  
                   value.isEmpty || (value != _pwdController.text)
                       ? "As senhas precisam ser iguais"
-                      : null;
-                },
+                      : null,
               ),
               Constants.boxMediumHeight,
               SizedBox(

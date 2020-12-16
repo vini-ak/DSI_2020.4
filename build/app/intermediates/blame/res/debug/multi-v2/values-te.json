@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/home/vinicius/Documentos/FACULDADE/DSI_2020.4/dsi_app/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-te/values-te.xml",
+            "outputFile": "/home/vinicius/Documentos/FACULDADE/DSI_2020.4/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-te/values-te.xml",
             "map": [
                 {
                     "source": "/home/vinicius/.gradle/caches/transforms-2/files-2.1/4c0b774c09d5393feb013f0dbe753af3/play-services-base-17.0.0/res/values-te/values.xml",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/home/vinicius/.gradle/caches/transforms-2/files-2.1/b01a9a6d8128574f5e09e1d31cee5b9f/jetified-play-services-basement-17.0.0/res/values-te/values.xml",
+                    "source": "/home/vinicius/.gradle/caches/transforms-2/files-2.1/4078ac1c38afb1ccc42eed4830c5a1c5/jetified-play-services-basement-17.0.0/res/values-te/values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
