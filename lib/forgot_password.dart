@@ -113,7 +113,11 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
   }
 
   _alterarSenha() {
-    if (!_formState.currentState.validate()) return;
+    if (!_formState.currentState.validate()) {
+      showDialog(context: context, child: Text("Não foi possível alterar a senha"));
+    }
     Navigator.pop(context);
   }
+
+  
 }

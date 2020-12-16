@@ -6,6 +6,8 @@ import 'package:dsi_app/infra.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import './cadastro_pessoa.dart';
+
 /// Este Scaffold é customizado para incluir o 'body' dentro de um scrollview,
 /// evitando o overflow da tela, em telas maiores que o tamanho da tela do
 /// aparelho. Esta primeira implementação considera apenas o Scaffold com o
@@ -133,10 +135,7 @@ class DsiScaffold extends StatelessWidget {
       title: title != null ? Text(title) : null,
       actions: <Widget>[
         IconButton(
-          onPressed: () => dsiHelper.showMessage(
-            context: context,
-            message: 'Falta implementar',
-          ),
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CadastroPessoa())),
           icon: Icon(
             Icons.search,
             color: Colors.white,
