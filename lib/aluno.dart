@@ -46,7 +46,8 @@ class AlunoController {
 
   Map<String, dynamic> toJson(Aluno aluno) {
     DocumentReference ref = pessoaController.getRef(aluno.pessoa.id);
-    return aluno.toJson()..putIfAbsent('pessoa', () => ref);
+    return aluno.toJson()
+      ..putIfAbsent('pessoa', () => ref); //operador em cascata.
   }
 
   FutureOr<List<FutureOr<Aluno>>> getAll() async {

@@ -3,6 +3,7 @@ import 'package:dsi_app/constants.dart';
 import 'package:dsi_app/home.dart';
 import 'package:dsi_app/login.dart';
 import 'package:dsi_app/pessoa_widgets.dart';
+import 'package:dsi_app/professor_widget.dart';
 import 'package:dsi_app/register.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -127,6 +128,8 @@ class DSIApp extends StatelessWidget {
       '/maintain_pessoa': (context) => MaintainPessoaPage(),
       '/list_aluno': (context) => ListAlunoPage(),
       '/maintain_aluno': (context) => MaintainAlunoPage(),
+      '/list_professor': (context) => ListProfessorPage(),
+      '/maintain_professor': (context) => MaintainProfessorPage(),
     };
   }
 }
