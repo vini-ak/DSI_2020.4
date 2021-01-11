@@ -27,33 +27,34 @@ class ProfessorController {
   CollectionReference professores;
 
   ProfessorController() {
-    professores = FirebaseFirestore.instance.collection("professores");
+    professores = FirebaseFirestore.instance.collection('professores');
   }
 
   DocumentReference getRef(String id) {
     return professores.doc(id);
   }
 
-  Future<Professor> fromJson(DocumentSnapshot snapshot) async {
+  FutureOr<Professor> fromJson(DocumentSnapshot snapshot) async {
     Map<String, dynamic> data = snapshot.data();
     Professor professor = Professor.fromJson(data);
     professor.id = snapshot.id;
-
     DocumentReference reference = data["pessoa"];
     professor.pessoa = pessoaController.fromJson(await reference.get());
-
+    // professor.codigoProfessor = data["codigoProfessor"];
+    // professor.disciplinas = data["disciplinas"];
     return professor;
   }
 
   Map<String, dynamic> toJson(Professor professor) {
     DocumentReference reference = pessoaController.getRef(professor.pessoa.id);
+    print("Referência para a pessoa" + reference.toString());
     return professor.toJson()..putIfAbsent('pessoa', () => reference);
   }
 
-  Future<List<Future<Professor>>> getAll() async {
-    QuerySnapshot document = await professores.get();
-    List<Future<Professor>> result =
-        document.docs.map((e) => this.fromJson(e)).toList();
+  FutureOr<List<FutureOr<Professor>>> getAll() async {
+    QuerySnapshot documents = await professores.get();
+    FutureOr<List<FutureOr<Professor>>> result =
+        documents.docs.map(fromJson).toList();
     return result;
   }
 
@@ -62,5 +63,26 @@ class ProfessorController {
     return fromJson(documentSnapshot);
   }
 
-  // IMPLEMENTAR A REMOÇÃO E UPDATE
+  Future<void> remove(FutureOr<Professor> professor) async {
+    Professor p = Professor();
+    Future<void> result = professores.doc(p.id).delete();
+    pessoaController.remove(p.pessoa);
+    return result;
+  }
+
+  Future<Professor> save(FutureOr<Professor> professor) async {
+    Professor p = await professor;
+    print("Referência para a pessoa" + p.pessoa.toString());
+
+    p.pessoa = await pessoaController.save(p.pessoa);
+    Map<String, dynamic> data = toJson(p);
+
+    if (p.id == null) {
+      DocumentReference reference = await professores.add(data);
+      return fromJson(await reference.get());
+    } else {
+      professores.doc(p.id).update(data);
+      return p;
+    }
+  }
 }

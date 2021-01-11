@@ -46,6 +46,8 @@ class AlunoController {
 
   Map<String, dynamic> toJson(Aluno aluno) {
     DocumentReference ref = pessoaController.getRef(aluno.pessoa.id);
+    print("Referência para a pessoa" + ref.toString());
+
     return aluno.toJson()
       ..putIfAbsent('pessoa', () => ref); //operador em cascata.
   }
