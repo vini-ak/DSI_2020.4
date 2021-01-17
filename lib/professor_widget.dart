@@ -18,11 +18,15 @@ class ListProfessorPage extends StatefulWidget {
             key: UniqueKey(),
             target: object,
             builder: (context, professor) {
+              String title =
+                  professor == null ? "<Sem nome>" : professor.pessoa.nome;
+              String subtitle = professor == null ? "-" : professor.disciplinas;
+              // print(title + "" + subtitle);
               return ListTile(
-                title: Text(professor.pessoa.nome),
-                subtitle: Text(professor.disciplinas),
-                onTap: () => dsiHelper.go(context, '/maintain_professor'),
-              );
+                  title: Text(title),
+                  subtitle: Text(subtitle),
+                  onTap: () => dsiHelper.go(context, '/maintain_professor',
+                      arguments: professor));
             },
           );
         },
@@ -45,9 +49,11 @@ class MaintainProfessorPage extends StatelessWidget {
 
     return DsiBasicFormPage(
       title: 'Professor',
-      onSave: professorController
-          .save(professor)
-          .then((value) => dsiHelper.go(context, '/list_professor')),
+      onSave: (context) {
+        professorController
+            .save(professor)
+            .then((value) => dsiHelper.go(context, '/list_professor'));
+      },
       body: Wrap(
         runSpacing: Constants.boxSmallHeight.height,
         children: [

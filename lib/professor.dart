@@ -64,7 +64,7 @@ class ProfessorController {
   }
 
   Future<void> remove(FutureOr<Professor> professor) async {
-    Professor p = Professor();
+    Professor p = await professor;
     Future<void> result = professores.doc(p.id).delete();
     pessoaController.remove(p.pessoa);
     return result;
@@ -72,7 +72,6 @@ class ProfessorController {
 
   Future<Professor> save(FutureOr<Professor> professor) async {
     Professor p = await professor;
-    print("Referência para a pessoa" + p.pessoa.toString());
 
     p.pessoa = await pessoaController.save(p.pessoa);
     Map<String, dynamic> data = toJson(p);
