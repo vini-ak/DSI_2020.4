@@ -183,18 +183,41 @@ class PessoaController {
     return fromJson(doc);
   }
 
-  Future<void> remove(FutureOr<Pessoa> pessoa) async {
-    Pessoa p = await pessoa;
+  Future<QuerySnapshot> findAluno(Pessoa pessoa) async {
     Query query = FirebaseFirestore.instance
         .collection("alunos")
-        .where("pessoa", isEqualTo: getRef(p.id));
+        .where("pessoa", isEqualTo: getRef(pessoa.id));
     QuerySnapshot snapshot = await query.get();
-    if (snapshot.size > 0)
-      throw Exception(
-          'Não é possível remover a pessoa, pois existe um aluno associado '
-          'a ela. Caso deseje, remova o aluno.');
-    else
-      return pessoas.doc(p.id).delete();
+    return snapshot;
+  }
+
+  Future<QuerySnapshot> findProfessor(Pessoa pessoa) async {
+    Query query = FirebaseFirestore.instance
+        .collection("professores")
+        .where("pessoa", isEqualTo: getRef(pessoa.id));
+    QuerySnapshot snapshot = await query.get();
+    return snapshot;
+  }
+
+  _throwExceptionRemovePessoa({String tipo}) {
+    throw Exception(
+        "Não é possível remover a pessoa, pois existe um $tipo associado a ela. Caso deseje, remova o $tipo.");
+  }
+
+  Future<void> remove(FutureOr<Pessoa> pessoa) async {
+    Pessoa p = await pessoa;
+    QuerySnapshot snapshot = await this.findAluno(p);
+
+    if (snapshot.size > 0) {
+      _throwExceptionRemovePessoa(tipo: "aluno");
+    } else {
+      snapshot = await this.findProfessor(p);
+      if (snapshot.size > 0) {
+        _throwExceptionRemovePessoa(tipo: "professor");
+      }
+    }
+
+    return pessoas.doc(p.id).delete();
   }
 
   Future<Pessoa> save(FutureOr<Pessoa> pessoa) async {

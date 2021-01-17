@@ -68,8 +68,10 @@ class AlunoController {
     Aluno a = await aluno;
     //TIP idealmente as duas linhas abaixo deveriam ser executadas
     //em uma única transação
-    Future<void> result = alunos.doc(a.id).delete();
-    pessoaController.remove(a.pessoa);
+    Future<void> result = alunos
+        .doc(a.id)
+        .delete()
+        .then((value) => pessoaController.remove(a.pessoa));
     return result;
   }
 

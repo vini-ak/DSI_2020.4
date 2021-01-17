@@ -65,8 +65,10 @@ class ProfessorController {
 
   Future<void> remove(FutureOr<Professor> professor) async {
     Professor p = await professor;
-    Future<void> result = professores.doc(p.id).delete();
-    pessoaController.remove(p.pessoa);
+    Future<void> result = professores
+        .doc(p.id)
+        .delete()
+        .then((value) => pessoaController.remove(p.pessoa));
     return result;
   }
 
